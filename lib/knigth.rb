@@ -4,10 +4,11 @@ require './lib/node'
 
 # Knigth class definition
 class Knigth
-  STEPS = [[-1, 2], [-1, -2], [1, 2], [1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
+  # STEPS = [[-1, 2], [-1, -2], [1, 2], [1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
+  STEPS = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
 
   def initialize(position, target_position)
-    @position = Node.new(position, [])
+    @position = Node.new(position)
     @target_position = target_position
   end
 
@@ -22,12 +23,9 @@ class Knigth
 
   def create_moves(node)
     new_positions = move(node)
-    new_nodes = []
-    
+    new_nodes = []  
     new_positions.each do |new_position|
       new_node = Node.new(new_position, node.path)
-      # return new_node if new_node.position == @target_position
-
       new_nodes << new_node
     end
     new_nodes
@@ -38,12 +36,21 @@ class Knigth
     node = nil
     loop do
       node = nodes.shift
-      
       node.next_positions = create_moves(node) if node.next_positions.empty?
-      
       nodes.concat(node.next_positions)
-      break if(node.position == @target_position)      
+      break if(node.position == @target_position)
+
     end
     node.path
   end  
+
+  def knight_moves(position, target_position)
+    @position = Node.new(position)
+    @target_position = target_position
+    path = create_path
+    puts "You made it in #{path.length} moves! Here's your path:"
+    path.each do |step|
+      p step
+    end
+  end
 end

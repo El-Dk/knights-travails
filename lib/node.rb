@@ -4,7 +4,7 @@
 class Node
   attr_accessor :position, :next_positions, :path
 
-  def initialize(position, path)
+  def initialize(position, path = [])
     @position = position
     @path = path + [position]
     @next_positions = []
